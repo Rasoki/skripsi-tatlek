@@ -60,7 +60,7 @@
                                         <td><?php echo $u->nama_barang ?></td>
                                         <td><?php echo $u->jum_barang ?></td>
                                         <td><?php echo $u->nama_kategori ?></td>
-                                        <td><?php echo $u->harga_barang ?></td>
+                                        <td><?php echo ' Rp.' . number_format($u->harga_barang,0,',','.')?></td>
 
 
                                         <td>
