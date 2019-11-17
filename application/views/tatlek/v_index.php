@@ -37,7 +37,7 @@
                                         ID Transaksi
                                     </th>
                                     <th>
-                                        Nama Barang
+                                        Kategori
                                     </th>
 
                                 </tr>
@@ -59,13 +59,13 @@
 
                                         <td><?php
                                             $no2 = 1;
-                                            foreach ($value['id_barang'] as $value2) {
+                                            foreach ($value['id_kategori'] as $value2) {
 
                                                 if ($no2 != 1) {
                                                     echo ', ';
                                                 }
 
-                                                echo $eclat['barang'][$value2]['name'];
+                                                echo $eclat['kategori'][$value2]['name'];
                                                 $no2++;
                                             }
                                             ?>
@@ -94,7 +94,7 @@
                                     </th>    
 
                                     <th>
-                                        Nama Barang
+                                        Kategori
                                     </th>
                                     <th>
                                         ID Transaksi
@@ -106,11 +106,11 @@
 
                                 <?php
                                 $no = 1;
-                                foreach ($eclat['barang'] as $value) {
+                                foreach ($eclat['kategori'] as $value) {
                                     ?>
                                     <tr>
                                         <td><?php echo $no++ ?></td>
-                                        <td><?php echo $value['name'] . ' | ' . $value['kode'] ?></td>
+                                        <td><?php echo $value['name'] ?></td>
                                         <td><?php
                                             $no2 = 1;
 
@@ -149,7 +149,7 @@
                                     </th>    
 
                                     <th>
-                                        Nama Barang
+                                        Kategori
                                     </th>
                                     <th>
                                         ID Transaksi
@@ -166,7 +166,7 @@
                                         ?>
                                         <tr>
                                             <td><?php echo $no++ ?></td>
-                                            <td><?php echo $eclat['barang'][$key]['name'] . ' x ' . $eclat['barang'][$key2]['name'] ?></td>
+                                            <td><?php echo $eclat['kategori'][$key]['name'] . ' x ' . $eclat['kategori'][$key2]['name'] ?></td>
                                             <td><?php
                                                 $no2 = 1;
 
@@ -208,7 +208,7 @@
                                     </th>    
 
                                     <th>
-                                        Nama Barang
+                                        Kategori
                                     </th>
                                     <th>
                                         ID Transaksi
@@ -226,7 +226,7 @@
                                         ?>
                                         <tr>
                                             <td><?php echo $no++ ?></td>
-                                            <td><?php echo $eclat['barang'][$key]['name'] . ' x ' . $eclat['barang'][$key2]['name'] ?></td>
+                                            <td><?php echo $eclat['kategori'][$key]['name'] . ' x ' . $eclat['kategori'][$key2]['name'] ?></td>
                                             <td><?php
                                                 $no2 = 1;
 
@@ -268,7 +268,7 @@
                                         No
                                     </th>    
                                     <th>
-                                        Nama  Barang
+                                        Kategori
                                     </th>  
 
                                     <th>
@@ -292,7 +292,7 @@
                                         ?>
                                         <tr>
                                             <td><?php echo $no++ ?></td>
-                                            <td><?php echo $eclat['barang'][$key]['name'] . ' ->' . $eclat['barang'][$key2]['name'] ?></td>
+                                            <td><?php echo $eclat['kategori'][$key]['name'] . ' ->' . $eclat['kategori'][$key2]['name'] ?></td>
                                             <td><?php echo $value2 ?>
                                             </td>
                                             <td><?php echo $eclat['confidence'][$key2][$key] ?>
