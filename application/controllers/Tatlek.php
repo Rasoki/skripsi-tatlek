@@ -129,7 +129,6 @@ class Tatlek extends CI_Controller {
         }
 
 //        print_r($kategori);
-
 //        $barang_data = $this->m_barang->tampil_data();
 //
 //        foreach ($barang_data as $key => $value) {
@@ -271,8 +270,8 @@ class Tatlek extends CI_Controller {
 //        echo '<br>';
 //        echo '<br>';
 //        print_r($max_confidence);
-        
-        
+
+
         $data['kategori'] = $kategori;
         $data['transaksi'] = $transaksi;
         $data['silang'] = $silang;
@@ -280,7 +279,7 @@ class Tatlek extends CI_Controller {
         $data['support'] = $support;
         $data['confidence'] = $confidence;
 //        echo '</pre>';
-        
+
         return $data;
     }
 
@@ -345,6 +344,9 @@ class Tatlek extends CI_Controller {
         foreach ($data_kategori as $key => $value) {
             $kategori[$value->id_kategori]['name'] = $value->nama_kategori;
             $kategori[$value->id_kategori]['id_transaksi'] = array();
+            $kategori[$value->id_kategori]['cpb'] = array();
+            $kategori[$value->id_kategori]['cfp'] = array();
+            $kategori[$value->id_kategori]['fpg'] = array();
         }
 
 
@@ -392,6 +394,7 @@ class Tatlek extends CI_Controller {
         foreach ($kategori_short as $id_kategori => $value) {
             $kategori[$id_kategori]['urutan'] = $no++;
             $pcb[$id_kategori] = array();
+            $cfpt[$id_kategori] = array();
         }
 
         echo '---------------------------------------------------------------------------------------------------';
@@ -447,7 +450,20 @@ class Tatlek extends CI_Controller {
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$id_kategori]['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+
+                        array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+                    }
+
+
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$id_kategori]['count'] += 1;
                 } else if ($key == 2) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$id_kategori])) {
@@ -457,7 +473,21 @@ class Tatlek extends CI_Controller {
 
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1]));
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$id_kategori]['count'] += 1;
                 } else if ($key == 3) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$id_kategori])) {
@@ -466,7 +496,24 @@ class Tatlek extends CI_Controller {
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$id_kategori]['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]] = array();
+                        }
                     }
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+
+                    //         array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$id_kategori]['count'] += 1;
                 } else if ($key == 4) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$id_kategori])) {
@@ -476,7 +523,25 @@ class Tatlek extends CI_Controller {
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$id_kategori]['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3]));
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][3]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][3]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+                    //    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][3]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$id_kategori]['count'] += 1;
                 } else if ($key == 5) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$id_kategori])) {
@@ -486,7 +551,28 @@ class Tatlek extends CI_Controller {
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$id_kategori] ['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4]));
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][1]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][2]] = array();
+                        }
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][3]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][3]] = array();
+                        }
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][4]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][4]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][4]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$id_kategori] ['count'] += 1;
                 } else if ($key == 6) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$id_kategori])) {
@@ -495,7 +581,16 @@ class Tatlek extends CI_Controller {
                         $$pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$id_kategori] ['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][5]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][5]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][5]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$id_kategori] ['count'] += 1;
                 } else if ($key == 7) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$id_kategori])) {
@@ -503,7 +598,17 @@ class Tatlek extends CI_Controller {
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$id_kategori] ['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][6]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][6]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][6]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$id_kategori] ['count'] += 1;
                 } else if ($key == 8) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$id_kategori])) {
@@ -511,7 +616,17 @@ class Tatlek extends CI_Controller {
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$id_kategori]['count'] = 0;
 
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][7]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][7]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][7]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$id_kategori]['count'] += 1;
                 } else if ($key == 9) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$id_kategori])) {
@@ -519,7 +634,17 @@ class Tatlek extends CI_Controller {
 
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$id_kategori] ['count'] = 0;
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][8]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][8]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][8]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$id_kategori] ['count'] += 1;
                 } else if ($key == 10) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$id_kategori])) {
@@ -527,7 +652,17 @@ class Tatlek extends CI_Controller {
 
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$id_kategori]['count'] = 0;
                         array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][9]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][9]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][9]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$id_kategori]['count'] += 1;
                 } else if ($key == 11) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$id_kategori])) {
@@ -535,17 +670,56 @@ class Tatlek extends CI_Controller {
 
                         $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$id_kategori]['count'] = 0;
 
-                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9],$transaksi[$id_transaksi]['urutan_kategori_text'][10]));
+                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9], $transaksi[$id_transaksi]['urutan_kategori_text'][10]));
+
+                        if (empty($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][10]])) {
+                            $cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][10]] = array();
+                        }
                     }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+//                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][10]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
+
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$id_kategori]['count'] += 1;
                 } else {
                     echo '1.';
                 }
             }
         }
+        echo '<br>';
+        echo 'Honpo';
+        echo '<br>';
+
         print_r($pohon);
 
+        echo '<br>';
+        echo 'CPB';
+        echo '<br>';
         print_r($pcb);
+
+        echo '<br>';
+        echo 'CFPT';
+        echo '<br>';
+        print_r($cfpt);
+
+        echo '<br>';
+        echo 'CFPT Kelompok';
+        echo '<br>';
+//        foreach ($pcb as $id_kategori => $value) {
+////              echo '<br><br>'.$id_kategori.':';
+////              $cabang[$id_kategori]=array();
+//            foreach ($value as $key => $value2) {
+////                echo '<br>'.$value2[0];
+//                if (empty($cabang[$id_kategori][$value2[0]])) {
+//                    $cabang[$id_kategori][$value2[0]] = 1;
+////                    array_push($cfpt, $pohon)
+//                }
+//            }
+////            
+//        }
+        print_r($cabang);
     }
 
 }
