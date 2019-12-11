@@ -36,8 +36,14 @@
         <link href="<?= base_url('includes') ?>/bower_components/datatables-colvis/css/dataTables.colVis.css" rel="stylesheet">
         <link href="<?= base_url('includes') ?>/bower_components/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
         <link href="<?= base_url('includes') ?>/bower_components/datatables-scroller/css/scroller.dataTables.scss" rel="stylesheet">
-        <script src="assets/js/modernizr-custom.js"></script>
+        <script src="<?= base_url('includes') ?>/assets/js/modernizr-custom.js"></script>
 
+        
+        <!--jQuery Nestable Dependencies  -->
+        <link rel="stylesheet" href="<?= base_url('includes') ?>/assets/css/jquery.nestable.css">
+        
+         <!--Fuelux Tree Depencencies -->
+        <link rel="stylesheet" type="text/css" href="<?= base_url('includes') ?>/assets/js/fuelux/css/tree-style.css" />
     </head>
     <body>
 
@@ -177,7 +183,7 @@
         <!-- Common Script   -->
         <script src="<?= base_url('includes') ?>/dist/js/main.js"></script>
 
-        <!--Data Table-->
+        Data Table
         <script src="<?= base_url('includes') ?>/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="<?= base_url('includes') ?>/bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
         <script src="<?= base_url('includes') ?>/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -187,5 +193,13 @@
 
         <!--init data tables-->
         <script src="<?= base_url('includes') ?>/assets/js/init-datatables.js"></script>
+        
+        <!--Fuelux Tree Depencencies -->
+        <script src="<?= base_url('includes') ?>/assets/js/fuelux/js/tree.min.js"></script>
+        <script src="<?= base_url('includes') ?>/assets/js/fuelux/js/init-tree.js"></script>
+        <!--jQuery Nestable Dependencies  -->
+        <script src="<?= base_url('includes') ?>/bower_components/Nestable/jquery.nestable.js"></script>
+        <script src="<?= base_url('includes') ?>/assets/js/init-nestable.js"></script>
+
     </body>
 </html>
