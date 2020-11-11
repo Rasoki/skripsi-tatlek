@@ -71,8 +71,7 @@ class Tatlek extends CI_Controller {
         }
 
 
-        $total_transaksi = count($transaksi);
-
+       
 
         $max_support['value'] = 0;
         $max_support['id_barang1'] = 0;
@@ -128,7 +127,7 @@ class Tatlek extends CI_Controller {
             $kategori[$value->id_kategori]['name'] = $value->nama_kategori;
             $kategori[$value->id_kategori]['id_transaksi'] = array();
         }
-
+//echo '<pre>';
 //        print_r($kategori);
 //        $barang_data = $this->m_barang->tampil_data();
 //
@@ -175,6 +174,8 @@ class Tatlek extends CI_Controller {
                 array_push($kategori[$id_kategori]['id_transaksi'], $id_transaksi);
             }
         }
+        
+//        print_r($kategori);
 
 //        echo '---------------------------------------------------------------------------------------------------';
 //        echo 'List Item';
@@ -207,7 +208,10 @@ class Tatlek extends CI_Controller {
                     $silang_seleksi[$id_kategori1][$id_kategori2] = $value;
                     $support[$id_kategori1][$id_kategori2] = count($silang[$id_kategori1][$id_kategori2]) / $total_transaksi;
                     $confidence[$id_kategori1][$id_kategori2] = count($silang[$id_kategori1][$id_kategori2]) / count($kategori[$id_kategori1]['id_transaksi']);
-
+                    
+//                    echo '<pre>';
+//                    print_r(count($kategori[$id_kategori1]['id_transaksi']));
+                    
                     if ($max_support['value'] < $support[$id_kategori1][$id_kategori2]) {
                         $max_support['value'] = $support[$id_kategori1][$id_kategori2];
                         $max_support['id_kategori1'] = $id_kategori1;
@@ -222,6 +226,7 @@ class Tatlek extends CI_Controller {
                 }
             }
         }
+//        print_r($silang);
 //        echo '<br>';
 //        echo '---------------------------------------------------------------------------------------------------';
 //
@@ -279,6 +284,7 @@ class Tatlek extends CI_Controller {
         $data['seleksi'] = $silang_seleksi;
         $data['support'] = $support;
         $data['confidence'] = $confidence;
+
 //        echo '</pre>';
 
         return $data;
@@ -346,9 +352,10 @@ class Tatlek extends CI_Controller {
             $kategori[$value->id_kategori]['name'] = $value->nama_kategori;
             $kategori[$value->id_kategori]['id_transaksi'] = array();
             $kategori[$value->id_kategori]['cpb'] = array();
-            $kategori[$value->id_kategori]['cfp'] = array();
+            $kategori[$value->id_kategori]['cfpt'] = array();
             $kategori[$value->id_kategori]['fpg'] = array();
         }
+
 
 
         $data_transaksi = $this->m_transaksi->tampil_data();
@@ -367,44 +374,54 @@ class Tatlek extends CI_Controller {
         foreach ($kategori as $id_kategori => $value) {
             $kategori_sort[$id_kategori] = count($value['id_transaksi']);
         }
-
+        
+//    echo '<pre>';
+////    print_r($kategori_sort);
+//    print_r($value['id_transaksi']);
+        
         $data['kategori'] = $kategori;
 
+//        print_r($kategori);
         $data['kategori_count'] = $kategori_sort;
-
-//        echo '---------------------------------------------------------------------------------------------------';
+        
+    
+//        print_r( $data['kategori_count']);
 //
-//        echo 'Data Transaksi';
+//        echo '---------------------------------------------------------------------------------------------------';
+//        echo '<br>';
+//
+//        echo 'Data Transaksi -OK';
 //        echo '<br>';
 //        print_r($transaksi);
 //        echo '---------------------------------------------------------------------------------------------------';
 //
-//        echo 'List Barang';
+//        echo 'List Kategori -OK';
 //        echo '<br>';
-//        print_r($kategori);
-//        print_r($barang);
+//        pri nt_r($kategori_sort);
 //        echo '---------------------------------------------------------------------------------------------------';
-//
-//        echo 'Sorting';
+////
+//        echo 'Sorting -OK';
 //        echo '<br>';
         arsort($kategori_sort);
 
         $data['kategori_sort'] = $kategori_sort;
 //        print_r($kategori_sort);
 
+
+
         $no = 1;
         foreach ($kategori_sort as $id_kategori => $value) {
+
             $kategori[$id_kategori]['urutan'] = $no++;
             $pcb[$id_kategori] = array();
             $cfpt[$id_kategori] = array();
         }
 
 //        echo '---------------------------------------------------------------------------------------------------';
-//
-//        echo 'List Barang Urutan';
+//        echo 'List Kategori Urutan';
 //        echo '<br>';
 //        print_r($kategori);
-//
+//                die();
 //        echo '---------------------------------------------------------------------------------------------------';
 //        echo '<br>';
 //        echo 'Kategori Urutan per transaksi';
@@ -417,7 +434,10 @@ class Tatlek extends CI_Controller {
             ksort($transaksi[$id_transaksi]['urutan_kategori']);
         }
 //        print_r($transaksi);
+//        die();
+//        echo '<pre>';
         $pohon['null'] = array();
+//        print_r( $pohon['null']);
 //        $pohon['null'][1][2][3] = array();
 //        $pohon['null'][1][3]['total'] = array();
 //        $pohon['null'][2][3] = array();
@@ -433,13 +453,13 @@ class Tatlek extends CI_Controller {
             // array_push($pohon, $cabang);
         }
 //        print_r($transaksi);
-
+//die();
         foreach ($transaksi as $id_transaksi => $value) {
 
             foreach ($transaksi[$id_transaksi]['urutan_kategori_text']as $key => $id_kategori) {
                 //array_push($transaksi[$id_transaksi]['urutan_kategori_text'], $id_kategori);
                 if ($key == 0) {
-
+                    
                     if (empty($pohon['null'][$id_kategori])) {
                         $pohon['null'][$id_kategori] = array();
                         $pohon['null'][$id_kategori]['count'] = 0;
@@ -460,7 +480,6 @@ class Tatlek extends CI_Controller {
                     if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
                         $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
                     }
-
 
 
                     if (empty($cfpt2[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
@@ -546,7 +565,7 @@ class Tatlek extends CI_Controller {
                         $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
                     }
 //                    array_push($cfpt[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][4]], $transaksi[$id_transaksi]['urutan_kategori_text'][0]);
-                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'] [3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$id_kategori] ['count'] += 1;
+                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$id_kategori] ['count'] += 1;
                     $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $id_kategori . '.'] += 1;
                 } else if ($key == 6) {
                     if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$id_kategori])) {
@@ -647,26 +666,116 @@ class Tatlek extends CI_Controller {
 
                     $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$id_kategori]['count'] += 1;
                     $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.' . $id_kategori . '.'] += 1;
-                } else {
+                 } else if ($key == 12) {
+                    if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$id_kategori])) {
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$id_kategori] = array();
+
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]] [$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$id_kategori]['count'] = 0;
+                        $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.'. $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' . $id_kategori . '.'] = 0;
+
+                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9], $transaksi[$id_transaksi]['urutan_kategori_text'][10], $transaksi[$id_transaksi]['urutan_kategori_text'][11]));
+                    }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+
+                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$id_kategori]['count'] += 1;
+                    $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' . $id_kategori . '.'] += 1;
+                    }  else if ($key == 13) {
+                    if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$id_kategori])) {
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$id_kategori] = array();
+
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]] [$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$id_kategori]['count'] = 0;
+                        $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.'. $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' . $id_kategori . '.'] = 0;
+
+                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9], $transaksi[$id_transaksi]['urutan_kategori_text'][10], $transaksi[$id_transaksi]['urutan_kategori_text'][11], $transaksi[$id_transaksi]['urutan_kategori_text'][12]));
+                    }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+
+                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$id_kategori]['count'] += 1;
+                    $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' . $id_kategori . '.'] += 1;
+                    }  else if ($key == 14) {
+                    if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$id_kategori])) {
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$id_kategori] = array();
+
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]] [$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$id_kategori]['count'] = 0;
+                        $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.'. $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][13] . '.' .  $id_kategori . '.'] = 0;
+
+                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9], $transaksi[$id_transaksi]['urutan_kategori_text'][10], $transaksi[$id_transaksi]['urutan_kategori_text'][11], $transaksi[$id_transaksi]['urutan_kategori_text'][12], $transaksi[$id_transaksi]['urutan_kategori_text'][13]));
+                    }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+
+                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$id_kategori]['count'] += 1;
+                    $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][13] . '.' . $id_kategori . '.'] += 1;
+                    }  else if ($key == 15) {
+                    if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$id_kategori])) {
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$id_kategori] = array();
+
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]] [$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$id_kategori]['count'] = 0;
+                        $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.'. $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][13] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][14] . '.' .  $id_kategori . '.'] = 0;
+
+                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9], $transaksi[$id_transaksi]['urutan_kategori_text'][10], $transaksi[$id_transaksi]['urutan_kategori_text'][11], $transaksi[$id_transaksi]['urutan_kategori_text'][12], $transaksi[$id_transaksi]['urutan_kategori_text'][13], $transaksi[$id_transaksi]['urutan_kategori_text'][14]));
+                    }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+
+                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$id_kategori]['count'] += 1;
+                    $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][13] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][14] . '.' . $id_kategori . '.'] += 1;
+                    }  else if ($key == 16) {
+                    if (empty($pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$transaksi[$id_transaksi]['urutan_kategori_text'][15]][$id_kategori])) {
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$transaksi[$id_transaksi]['urutan_kategori_text'][15]][$id_kategori] = array();
+
+                        $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]] [$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$transaksi[$id_transaksi]['urutan_kategori_text'][15]][$id_kategori]['count'] = 0;
+                        $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.'. $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][13] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][14] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][15] . '.' .  $id_kategori . '.'] = 0;
+
+                        array_push($pcb[$id_kategori], array($transaksi[$id_transaksi]['urutan_kategori_text'][0], $transaksi[$id_transaksi]['urutan_kategori_text'][1], $transaksi[$id_transaksi]['urutan_kategori_text'][2], $transaksi[$id_transaksi]['urutan_kategori_text'][3], $transaksi[$id_transaksi]['urutan_kategori_text'][4], $transaksi[$id_transaksi]['urutan_kategori_text'][5], $transaksi[$id_transaksi]['urutan_kategori_text'][6], $transaksi[$id_transaksi]['urutan_kategori_text'][7], $transaksi[$id_transaksi]['urutan_kategori_text'][8], $transaksi[$id_transaksi]['urutan_kategori_text'][9], $transaksi[$id_transaksi]['urutan_kategori_text'][10], $transaksi[$id_transaksi]['urutan_kategori_text'][11], $transaksi[$id_transaksi]['urutan_kategori_text'][12], $transaksi[$id_transaksi]['urutan_kategori_text'][13], $transaksi[$id_transaksi]['urutan_kategori_text'][14], $transaksi[$id_transaksi]['urutan_kategori_text'][15]));
+                    }
+
+                    if (empty($cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]])) {
+                        $cabang[$id_kategori][$transaksi[$id_transaksi]['urutan_kategori_text'][0]] = 1;
+                    }
+
+
+                    $pohon['null'][$transaksi[$id_transaksi]['urutan_kategori_text'][0]][$transaksi[$id_transaksi]['urutan_kategori_text'][1]][$transaksi[$id_transaksi]['urutan_kategori_text'][2]][$transaksi[$id_transaksi]['urutan_kategori_text'][3]][$transaksi[$id_transaksi]['urutan_kategori_text'][4]][$transaksi[$id_transaksi]['urutan_kategori_text'][5]][$transaksi[$id_transaksi]['urutan_kategori_text'][6]][$transaksi[$id_transaksi]['urutan_kategori_text'][7]][$transaksi[$id_transaksi]['urutan_kategori_text'][8]][$transaksi[$id_transaksi]['urutan_kategori_text'][9]][$transaksi[$id_transaksi]['urutan_kategori_text'][10]][$transaksi[$id_transaksi]['urutan_kategori_text'][11]][$transaksi[$id_transaksi]['urutan_kategori_text'][12]][$transaksi[$id_transaksi]['urutan_kategori_text'][13]][$transaksi[$id_transaksi]['urutan_kategori_text'][14]][$transaksi[$id_transaksi]['urutan_kategori_text'][15]][$id_kategori]['count'] += 1;
+                    $pohon2[$transaksi[$id_transaksi]['urutan_kategori_text'][0] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][1] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][2] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][3] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][4] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][5] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][6] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][7] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][8] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][9] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][10] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][11] . '.' . $transaksi[$id_transaksi]['urutan_kategori_text'][12] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][13] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][14] . '.' .$transaksi[$id_transaksi]['urutan_kategori_text'][15] . '.' . $id_kategori . '.'] += 1;
+                    } else {
                     echo '1.';
                 }
             }
         }
 
+//        die();
+
         $data['pohon'] = $pohon;
         $data['count_cpb'] = $pohon2;
 
 //        echo '<br>';
-//        echo 'Honpo';
+//        echo 'Honpo OK';
 //        echo '<br>';
-//
+//     echo '<pre>';
 //                print_r($pohon);
+        
+       
 //        print_r($pohon2);
-//
+//        die();
 //        echo '<br>';
-//        echo 'CPB';
+//        echo 'CPB OK';
 //        echo '<br>';
 //        print_r($pcb);
+//        die();
         $data['pcb'] = $pcb;
         $data['cfpt'] = $cfpt2;
 
@@ -674,6 +783,7 @@ class Tatlek extends CI_Controller {
 //        echo 'CFPT';
 //        echo '<br>';
 //      print_r($cfpt2);
+//      die();
 //        foreach ($cfpt2 as $key => $value) {
 //            echo '<br>';
 //            echo '<br>';
@@ -715,6 +825,45 @@ class Tatlek extends CI_Controller {
 //        }
 //        print_r($cabang);
 //        $data[]
+
+
+//        $max_support['value'] = 0;
+//        $max_support['id_kategori1'] = 0;
+//        $max_support['id_kategori2'] = 0;
+//
+//        $max_confidence['value'] = 0;
+//        $max_confidence['id_kategori1'] = 0;
+//        $max_confidence['id_kategori2'] = 0;
+////        echo '<br>';
+//        foreach ($growth as $id_kategori1 => $array1) {
+//            foreach ($array1 as $id_kategori2 => $value) {
+////              echo '<br>' . $id_kategori1 . '=>' . $id_kategori2 . ' = ' . count($silang[$id_kategori1][$id_kategori2]);
+//                if (count($growth['kategori_count']) > 1) {
+//                    $growth[$id_kategori1][$id_kategori2] = $value;
+//                    $support[$id_kategori1][$id_kategori2] = count($growth[$id_kategori1][$id_kategori2]) / $total_transaksi;
+//                    $confidence[$id_kategori1][$id_kategori2] = count($growth[$id_kategori1][$id_kategori2]) / count($kategori[$id_kategori1]['id_transaksi']);
+//
+//                    if ($max_support['value'] < $support[$id_kategori1][$id_kategori2]) {
+//                        $max_support['value'] = $support[$id_kategori1][$id_kategori2];
+//                        $max_support['id_kategori1'] = $id_kategori1;
+//                        $max_support['id_kategori2'] = $id_kategori2;
+//                    }
+//
+//                    if ($max_confidence['value'] < $confidence[$id_kategori1][$id_kategori2]) {
+//                        $max_confidence['value'] = $confidence[$id_kategori1][$id_kategori2];
+//                        $max_confidence['id_kategori1'] = $id_kategori1;
+//                        $max_confidence['id_kategori2'] = $id_kategori2;
+//                    }
+//                }
+//            }
+//        }
+//
+//        $data['kategori'] = $kategori;
+//        $data['transaksi'] = $transaksi;
+//        $data['support'] = $support;
+//        $data['confidence'] = $confidence;
+        
+//        echo '</pre>';
         return $data;
     }
 

@@ -105,13 +105,13 @@ class Transaksi extends CI_Controller {
 
         $id_transaksi = $this->input->post('id_transaksi');
         $id_barang = $this->input->post('id_barang');
-        $jumlah = $this->input->post('jumlah');
+//        $jumlah = $this->input->post('jumlah');
 
 
         $dataTransaksi = array(
             'id_transaksi' => $id_transaksi,
-            'id_barang' => $id_barang,
-            'jumlah' => $jumlah
+            'id_barang' => $id_barang
+//            'jumlah' => $jumlah
         );
 
         $this->m_transaksi->insert_detail($dataTransaksi);

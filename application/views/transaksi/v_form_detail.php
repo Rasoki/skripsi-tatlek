@@ -1,13 +1,13 @@
 <!--page header start-->
 <div class="page-head-wrap">
     <h4 class="margin0">
-        Data Transaksi
+        Data Detail Transaksi
     </h4>
     <div class="breadcrumb-right">
         <ol class="breadcrumb">
             <li><a href="#">Data Table</a></li>
-
             <li class="active">Data Transaksi</li>
+            <li class="active">Data Detail Transaksi</li>
         </ol>
     </div>
 </div>
@@ -35,15 +35,15 @@
                                         Nama Barang
                                     </th>
 
-                                    <th>
+<!--                                    <th>
                                         Harga 
-                                    </th>
-                                    <th>
+                                    </th>-->
+<!--                                    <th>
                                         Jumlah
-                                    </th>
-                                    <th>
+                                    </th>-->
+<!--                                    <th>
                                         Total Harga
-                                    </th>
+                                    </th>-->
                                     <th>
                                         Aksi
                                     </th>
@@ -58,16 +58,16 @@
                                     <tr>
                                         <td><?php echo $no++ ?></td>
                                         <td><?php echo $u->nama_barang ?></td>
-                                        <td><?php echo ' Rp.' . number_format($u->harga_barang, 0, ',', '.') ?></td>
+<!--                                        <td><?php echo ' Rp.' . number_format($u->harga_barang, 0, ',', '.') ?></td>-->
 
-                                        <td><?php echo $u->jumlah ?></td>
+<!--                                        <td><?php echo $u->jumlah ?></td>-->
 
-                                        <td>
+<!--                                        <td>
                                             <?php
                                             $total = $u->jumlah * $u->harga_barang;
                                             echo' Rp.' . number_format($total, 0, ',', '.')
                                             ?>
-                                        </td>
+                                        </td>-->
                                         <td>
                                             <a  class="btn btn-info" href="<?php echo site_url('Transaksi/edit_detail/' . $u->id_detail_transaksi); ?>">
                                                 <i class="icon-note"></i>
@@ -112,12 +112,12 @@
                                                 <br><br>
 
 
-                                                <div class="form-group">
+<!--                                                <div class="form-group">
                                                     <label  class="col-lg-3 col-sm-3 control-label">Jumlah Barang</label>
                                                     <div class="col-lg-9">
                                                         <input class="form-control" name="jumlah" placeholder="Jumlah Barang" type="number">
                                                     </div>
-                                                </div>
+                                                </div>-->
 
 
                                                 <div class="form-group">

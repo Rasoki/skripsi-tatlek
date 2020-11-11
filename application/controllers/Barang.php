@@ -32,14 +32,14 @@ class Barang extends CI_Controller {
         $id_kategori = $this->input->post('id_kategori');
         $kode_barang = $this->input->post('KodeBarang');
         $nama_barang = $this->input->post('NamaBarang');
-        $jum_barang = $this->input->post('JumlahBarang');
-        $harga_barang = $this->input->post('HargaBarang');
+//        $jum_barang = $this->input->post('JumlahBarang');
+//        $harga_barang = $this->input->post('HargaBarang');
         $data = array(
             'id_kategori' => $id_kategori,
             'kode_barang' => $kode_barang,
-            'nama_barang' => $nama_barang,
-            'jum_barang' => $jum_barang,
-            'harga_barang' => $harga_barang
+            'nama_barang' => $nama_barang
+//            'jum_barang' => $jum_barang,
+//            'harga_barang' => $harga_barang
         );
         $this->m_barang->input_data($data);
         redirect('barang');
@@ -64,15 +64,15 @@ class Barang extends CI_Controller {
         $id_kategori = $this->input->post('id_kategori');
         $kode_barang = $this->input->post('KodeBarang');
         $nama_barang = $this->input->post('NamaBarang');
-        $jum_barang = $this->input->post('JumlahBarang');
-
-        $harga_barang = $this->input->post('HargaBarang');
+//        $jum_barang = $this->input->post('JumlahBarang');
+//
+//        $harga_barang = $this->input->post('HargaBarang');
         $data = array(
             'kode_barang' => $kode_barang,
             'nama_barang' => $nama_barang,
-            'jum_barang' => $jum_barang,
-            'id_kategori' => $id_kategori,
-            'harga_barang' => $harga_barang
+//            'jum_barang' => $jum_barang,
+            'id_kategori' => $id_kategori
+//            'harga_barang' => $harga_barang
         );
         $where = array(
             'id_barang' => $id_barang

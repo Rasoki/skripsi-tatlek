@@ -35,9 +35,9 @@
                                         Tanggal
                                     </th>
                                    
-                                    <th>
+<!--                                    <th>
                                         Total Harga
-                                    </th>
+                                    </th>-->
                                     <th>
                                         Aksi
                                     </th>
@@ -54,7 +54,7 @@
                                         <td><?php echo $u->no_transaksi ?></td>
                                         <td><?php echo $u->tanggal ?></td>
                                        
-                                        <td><?php echo ' Rp.' . number_format($u->harga,0,',','.')?></td>
+<!--                                        <td><?php echo ' Rp.' . number_format($u->harga,0,',','.')?></td>-->
                                         <td>
                                            
                                              <a  class="btn btn-primary" href="<?php echo site_url('Transaksi/form_detail/' . $u->id_transaksi); ?>">

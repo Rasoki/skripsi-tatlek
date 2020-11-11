@@ -34,15 +34,15 @@
                                     <th>
                                         Nama Barang
                                     </th>
-                                    <th>
+<!--                                    <th>
                                         Jumlah Barang
-                                    </th>
+                                    </th>-->
                                     <th>
                                         Jenis Barang
                                     </th>
-                                    <th>
+<!--                                    <th>
                                         Harga Barang
-                                    </th>
+                                    </th>-->
                                     <th>
                                         Aksi
                                     </th>
@@ -58,9 +58,9 @@
                                         <td><?php echo $no++ ?></td>
                                         <td><?php echo $u->kode_barang ?></td>
                                         <td><?php echo $u->nama_barang ?></td>
-                                        <td><?php echo $u->jum_barang ?></td>
+<!--                                        <td><?php echo $u->jum_barang ?></td>-->
                                         <td><?php echo $u->nama_kategori ?></td>
-                                        <td><?php echo ' Rp.' . number_format($u->harga_barang,0,',','.')?></td>
+<!--                                        <td><?php echo ' Rp.' . number_format($u->harga_barang,0,',','.')?></td>-->
 
 
                                         <td>

@@ -19,9 +19,11 @@
 
         <div class="row">
             <div class="col-sm-12">
+                
                 <section class="panel">
 
                     <div class="panel-body table-responsive">
+                        
                         <table class="table colvis-data-table table-striped">
                             <thead>
                                 <tr>

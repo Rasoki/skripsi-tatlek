@@ -39,12 +39,12 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+<!--                            <div class="form-group">
                                 <label for="JumlahBarang" class="col-lg-3 col-sm-3 control-label">Jumlah Barang</label>
                                 <div class="col-lg-9">  
                                     <input class="form-control" name="JumlahBarang" value="<?php echo $u->jum_barang ?>">
                                 </div>
-                            </div>
+                            </div>-->
 
                             <div class="form-group">
                                 <label  class="col-lg-3 col-sm-3 control-label">Jenis Barang</label>
@@ -62,12 +62,12 @@
                             </div>
                             <br><br>
 
-                            <div class="form-group">
+<!--                            <div class="form-group">
                                 <label for="HargaBarang" class="col-lg-3 col-sm-3 control-label">Harga Barang</label>
                                 <div class="col-lg-9">  
                                     <input class="form-control" name="HargaBarang" value="<?php echo $u->harga_barang ?>">
                                 </div>
-                            </div>
+                            </div>-->
 
                             <div class="form-group">
                                 <div class="col-lg-offset-3 col-lg-9">

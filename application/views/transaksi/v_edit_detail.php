@@ -38,11 +38,11 @@
                                     foreach ($barang as $t) {
                                         if ($t->id_barang == $detail_transaksi->id_barang) {
                                             ?>
-                                            <option  value="<?= $t->id_barang; ?>" selected><?= $t->nama_barang . ' Rp.' . number_format($t->harga_barang, 0, ',', '.') ?></option>
+                                            <option  value="<?= $t->id_barang; ?>" selected><?= $t->nama_barang  ?></option>
                                             <?php
                                         } else {
                                             ?>
-                                            <option  value="<?= $t->id_barang; ?>"><?= $t->nama_barang . ' Rp.' . number_format($t->harga_barang, 0, ',', '.') ?></option>
+                                            <option  value="<?= $t->id_barang; ?>"><?= $t->nama_barang ?></option>
                                             <?php
                                         }
                                     }
@@ -50,16 +50,16 @@
                                 </select>
                             </div>
                         </div>
+<!--. ' Rp.' . number_format($t->harga_barang, 0, ',', '.')-->
 
 
 
-
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <label for="JumlahBarang" class="col-lg-3 col-sm-3 control-label">Jumlah Barang</label>
                             <div class="col-lg-9">  
                                 <input class="form-control" name="jumlah" value="<?php echo $detail_transaksi->jumlah ?>">
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <div class="col-lg-offset-3 col-lg-9">

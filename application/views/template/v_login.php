@@ -44,11 +44,11 @@
                         Remember me
                     </div>
                     <button type="submit" class="btn btn-info btn-block">Login</button>
-                    <div class="text-center help-block">
+<!--                    <div class="text-center help-block">
                         <a href="<?=base_url('includes')?>/forgot-password.html"><small>Forgot password?</small></a>
                         <p class="text-muted help-block"><small>Do not have an account?</small></p>
                     </div>
-                    <a class="btn btn-md btn-default btn-block" href="registration.html">Create an account</a>
+                    <a class="btn btn-md btn-default btn-block" href="registration.html">Create an account</a>-->
                 </form>
                 <div class="text-center copyright-txt">
                     <small>MegaDin - Copyright © 2017</small>

@@ -31,12 +31,12 @@
                             </div>                                      
                         </div>
 
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <label class="col-lg-3 col-sm-3 control-label">Jumlah Barang</label>
                             <div class="col-lg-9">
                                 <input class="form-control" name="JumlahBarang" placeholder="Jumlah Barang" type="text">
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label  class="col-lg-3 col-sm-3 control-label">Jenis Barang</label>
@@ -54,12 +54,12 @@
                         </div>
                         <br><br>
 
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <label class="col-lg-3 col-sm-3 control-label">Harga Barang</label>
                             <div class="col-lg-9">
                                 <input class="form-control" name="HargaBarang" placeholder="Harga Barang" type="text">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group">
                             <div class="col-lg-offset-3 col-lg-9">
                                 <a href="<?php echo site_url() . 'Barang'; ?>" type="button" class="btn btn-warning">Cancel</a>
