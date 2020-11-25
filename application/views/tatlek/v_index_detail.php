@@ -1,6 +1,9 @@
 <?php
 //var_dump(base_url('includes'));
 //die;
+$select_eclat = [0.001,0.002,0.003,0.004,0.005,0.006,0.007,0.008,0.009,0.01];
+$select_confidence = [0.5,0.6,0.7,0.8,0.9,1];
+$select_confidence2 = [0.1,0.2,0.3,0.4];
 ?>
 <div class="page-head-wrap">
     <h4 class="margin0">
@@ -1213,6 +1216,10 @@
                         Tabel Hasil Perbandingan
 
                     </header>
+                    <?php
+                    $value_backend = $value;
+                    $value_backend2 = $value2;
+                    ?>
                     <div class="ui-container">
                         <div class="panel-body table-responsive">
                             <table class="table colvis-data-table table-striped">
@@ -1230,20 +1237,38 @@
                                 <th>
                                     ITEMSET
                                 </th>
+                                <th>
+                                    DETAIL
+                                </th>
                                 </thead>
                                 <tr>
                                     <td rowspan="2">
                                         ECLAT
                                     </td>
                                     <td>
-                                        0.001
+                                        <select class="form-control" id="eclat1" name="eclat1">
+                                            <?php
+                                                foreach($select_eclat as $key=>$val)
+                                                {
+                                                    echo '<option value='.$val.'>'.$val.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </td>
                                     <td>
-                                        0.5
+                                        <select class="form-control" id="confidence1" name="confidence1">
+                                            <?php
+                                                foreach($select_confidence as $key=>$val)
+                                                {
+                                                    echo '<option value='.$val.'>'.$val.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </td>
                                     <td>
 
                                         <?php
+
                                         $no = 0;
                                         foreach ($item as $key => $value) {
                                             $cek = 0;
@@ -1261,7 +1286,8 @@
                                         }
 
                                         $a_itemset [] = $no;
-                                        echo $no;
+                                        
+//                                        echo $item[$key][$no][$key3]['name'];
 //                                   print_r($item);
 //                                  echo $no;
                                         ?>
@@ -1276,19 +1302,37 @@
 //                                    }
 //                                    echo $no
                                         ?>
-
+                                        <span id="itemset1">0</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        0.001
+                                        <select class="form-control" id="eclat2" name="eclat2">
+                                            <?php
+                                                foreach($select_eclat as $key=>$val)
+                                                {
+                                                    echo '<option value='.$val.'>'.$val.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </td>
                                     <td>
-                                        0.3
+                                        <select class="form-control" id="confidence2" name="confidence2">
+                                            <?php
+                                                foreach($select_confidence2 as $key=>$val)
+                                                {
+                                                    echo '<option value='.$val.'>'.$val.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </td>
                                     <td>
                                         <?php
                                         $no = 0;
+                                        
+                                        $value_backend1 = $value;
+                                        $value_backend12 = $value2;
+                
                                         foreach ($item as $key => $value) {
                                             $cek = 0;
 
@@ -1304,10 +1348,11 @@
                                             }
                                         }
                                         $a_itemset [] = $no;
-                                        echo $no;
+                             
 //                                   print_r($item);
-//                                  echo $no;
+                                 
                                         ?>
+                                        <span id="itemset2"><?=$no?></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1347,7 +1392,7 @@
 
                                 <tr>
                                     <td>
-                                        0.001
+                                         
                                     </td>
                                     <td>
                                         0.3
@@ -1491,13 +1536,50 @@
 
                 </section>
             </div>
+(
+         </div>
+ 
+     </div>
+ </div>
 
-        </div>
-
-    </div>
-</div>
-
-
+ <script src="<?= base_url('includes') ?>/bower_components/jquery/dist/jquery.min.js"></script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+     getValue();
+     getValue2();
+     $('#eclat1,#confidence1').on('change',function(){
+         getValue();
+     })
+     $('#eclat2,#confidence2').on('change',function(){
+         getValue();
+     })
+ })
+ 
+ function getValue()
+ {
+     $.ajax({
+         type: "POST",
+         dataType: 'JSON',
+         data: {support: $('#eclat1').val(),confidence:$('#confidence1').val(),item:<?php echo json_encode($item); ?>,value:<?php echo json_encode($value_backend); ?>,value2:<?php echo json_encode($value_backend2); ?>},
+         url: "<?=base_url()?>/index.php/tatlek/itemset",
+         success: function(data){
+           $('#itemset1').html(data.nilai);
+       }
+   });    
+}
+function getValue2()
+ {
+     $.ajax({
+         type: "POST",
+         dataType: 'JSON',
+         data: {support: $('#eclat2').val(),confidence:$('#confidence2').val(),item:<?php echo json_encode($item); ?>,value:<?php echo json_encode($value_backend1); ?>,value2:<?php echo json_encode($value_backend12); ?>},
+         url: "<?=base_url()?>/index.php/tatlek/itemset",
+         success: function(data){
+           $('#itemset2').html(data.nilai);
+       }
+   });    
+}
+</script>
 
 
 

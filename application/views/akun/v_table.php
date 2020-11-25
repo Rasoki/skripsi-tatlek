@@ -20,7 +20,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <section class="panel">
-
+                     <a href="<?php echo site_url('Akun/form'); ?>"> 
+                        <i class="icon-plus"></i> 
+                    </a>
                     <div class="panel-body table-responsive">
                         <table class="table colvis-data-table table-striped">
                             <thead>

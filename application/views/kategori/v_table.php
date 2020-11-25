@@ -6,7 +6,7 @@
     <div class="breadcrumb-right">
         <ol class="breadcrumb">
 
-            <li><a href="#">Data Table</a></li>
+            <li><a href="#">Data Latih</a></li>
             <li class="active">Data Kategori</li>
         </ol>
     </div>
@@ -18,14 +18,22 @@
     <div class="ui-container">
 
         <div class="row">
+            
             <div class="col-sm-12">
-                
-                <section class="panel">
 
+                <section class="panel">
+                    <a href="<?php echo site_url('Kategori/form'); ?>"> 
+                        <i class="icon-plus"></i> 
+                    </a>
                     <div class="panel-body table-responsive">
-                        
+
+
+
+
                         <table class="table colvis-data-table table-striped">
+
                             <thead>
+
                                 <tr>
                                     <th>
                                         No
@@ -33,9 +41,15 @@
                                     <th>
                                         Nama Kategori
                                     </th>
+                                    <?php
+                                    if($this->session->userdata('jabatan')=='admin'){
+                                    ?>
                                     <th>
                                         Aksi
                                     </th>
+                                    <?php
+                                    }
+                                    ?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,18 +63,23 @@
                                         <td><?php echo $u->nama_kategori ?></td>
 
                                         <td>
+                                            <?php
+                                            if($this->session->userdata('jabatan')=='admin'){
+                                            ?>
                                             <a  class="btn btn-info" href="<?php echo site_url('Kategori/edit/' . $u->id_kategori); ?>">
                                                 <i class="icon-note"></i>
                                             </a>
                                             <a  class="btn btn-danger" href="<?php echo site_url('Kategori/hapus/' . $u->id_kategori); ?>">
                                                 <i class="icon-close"></i>
                                             </a>
+                                            <?php }?>
                                         </td>
                                     </tr>
                                 <?php } ?>
 
                             </tbody>
                         </table>
+
                     </div>
                 </section>
             </div>

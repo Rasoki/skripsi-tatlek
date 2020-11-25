@@ -4,7 +4,7 @@
     </h4>
     <div class="breadcrumb-right">
         <ol class="breadcrumb">
-            <li><a href="#">Data Table</a></li>
+            <li><a href="#">Data Latih</a></li>
             <li><a href="#">Edit</a></li>
             <li class="active">Edit Transaksi</li>
         </ol>

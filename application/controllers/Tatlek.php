@@ -867,4 +867,33 @@ class Tatlek extends CI_Controller {
         return $data;
     }
 
+    function itemset()
+    {
+        $support = $this->input->post('support');
+        $confidence = $this->input->post('confidence');
+        $item = $this->input->post('item');
+        $value = $this->input->post('value');
+        $value2 = $this->input->post('value2');
+
+        $no = 0;
+        foreach ($item as $key => $value) {
+            $cek = 0;
+
+            foreach ($value as $key2 => $value2) {
+                if ($cek == 0) {
+                    foreach ($value2 as $key3 => $value3) {
+                        if ($item[$key][0][$key3] >= $support && $item[$key][1][$key3] >= $confidence) {
+                            $no++;
+                        }
+                    }
+                    $cek++;
+                }
+            }
+        }
+
+        $a_itemset [] = $no;
+
+        echo json_encode(['nilai'=>$no]);
+    }
+
 }

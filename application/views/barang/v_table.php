@@ -5,7 +5,7 @@
     </h4>
     <div class="breadcrumb-right">
         <ol class="breadcrumb">
-            <li><a href="#">Data Table</a></li>
+            <li><a href="#">Data Latih</a></li>
 
             <li class="active">Data Barang</li>
         </ol>
@@ -20,8 +20,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <section class="panel">
+                     <a href="<?php echo site_url('Barang/form'); ?>"> 
+                        <i class="icon-plus"></i> 
+                    </a>
 
                     <div class="panel-body table-responsive">
+                        
                         <table class="table colvis-data-table table-striped">
                             <thead>
                                 <tr>

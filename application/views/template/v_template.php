@@ -135,9 +135,9 @@
 
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-table"></i><span>Data Tables</span><i class="fa fa-angle-right pull-right"></i></a>
+                        <a href=""><i class="fa fa-table"></i><span>Data Latih</span><i class="fa fa-angle-right pull-right"></i></a>
                         <ul class="nav nav-sub">
-                            <li class="nav-sub-header"><a href=""><span>Data Tables</span></a></li>
+                            <li class="nav-sub-header"><a href=""><span>Data Latih</span></a></li>
                             <li><a href="<?= site_url('kategori') ?>"><span>Data Kategori </span></a></li>
 <!--                            <li><a href="<?= site_url('rak') ?>"><span>Data Rak</span></a></li>-->
                             <li><a href="<?= site_url('barang') ?>"><span>Data Barang</span></a></li>
@@ -145,18 +145,18 @@
                             <li><a href="<?= site_url('akun') ?>"><span>Data Akun</span></a></li>
                         </ul>
                     </li>
-                    <li>
+<!--                    <li>
                         <a href=""><i class="fa fa-list-alt"></i><span>Form</span><i class="fa fa-angle-right pull-right"></i></a>
                         <ul class="nav nav-sub">
                             <li class="nav-sub-header"><a href=""><span>Form</span></a></li>
                             <li><a href="<?= site_url('kategori/form') ?>"><span>Form Kategori </span></a></li>
-<!--                            <li><a href="<?= site_url('rak/form') ?>"><span>Form Rak</span></a></li>-->
+                            <li><a href="<?= site_url('rak/form') ?>"><span>Form Rak</span></a></li>
                             <li><a href="<?= site_url('barang/form') ?>"><span>Form Barang</span></a></li>
                             <li><a href="<?= site_url('transaksi/form') ?>"><span>Form Transaksi</span></a></li>
                             <li><a href="<?= site_url('akun/form') ?>"><span>Form Akun</span></a></li>
 
                         </ul>
-                    </li>
+                    </li>-->
                     <li>
                         <a href="<?= site_url('tatlek') ?>"><i class="fa fa-bullseye"></i><span>Tata Letak</span></a> 
                     </li>
