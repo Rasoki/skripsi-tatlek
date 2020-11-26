@@ -1606,7 +1606,7 @@ $this->session->set_userdata('growth',$growth);
        getValue();
        getValue2();
        getValue3();
-       getValue3();
+       getValue4();
        $('#eclat1,#confidence1').on('change',function(){
            getValue();
        })
