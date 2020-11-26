@@ -959,6 +959,7 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
                                             </tbody>
                                         </table>
                                     </div>
+                                    
                                     <header class="panel-heading panel-border">
                                         Tabel Hasil
                                         <span class="tools pull-right">
@@ -993,6 +994,7 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
                                             <tbody>
 
                                                 <?php
+
                                                 foreach ($fpg_data as $key => $value) {
 //                                                for ($i = 0; $i < count($fpg_data); $i++) {
                                                     if ($key == count($fpg_data) - 1) {
@@ -1212,6 +1214,9 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 //                    print_r($item[1]);
                     ?>
 
+<?php
+$this->session->set_userdata('eclat',$eclat);
+?>
 
                     <header class="panel-heading panel-border">
                         Tabel Hasil Perbandingan
@@ -1302,8 +1307,15 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 //                                    }
 //                                    }
 //                                    echo $no
+// echo '<pre>';
+// print_r($eclat['support']);
+// echo '</pre>';
+// die;
                                         ?>
                                         <span id="itemset1">0</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary btn-sm" id="detail_eclat1">Detail</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1353,6 +1365,9 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 
                                         ?>
                                         <span id="itemset2">0</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary btn-sm" id="detail_eclat2">Detail</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1575,6 +1590,7 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 </div>
 </div>
 
+
 <script src="<?= base_url('includes') ?>/bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
    $(document).ready(function(){
@@ -1598,6 +1614,7 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 
    function getValue()
    {
+       $("a#detail_eclat1").attr("href", "<?php echo site_url('tatlek/detail_eclat/')?>/"+$('#eclat1').val()+"/"+$('#confidence1').val()+"");
        $.ajax({
            type: "POST",
            dataType: 'JSON',
@@ -1610,6 +1627,7 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
    }
    function getValue2()
    {
+    $("a#detail_eclat2").attr("href", "<?php echo site_url('tatlek/detail_eclat/')?>/"+$('#eclat2').val()+"/"+$('#confidence2').val()+"");
        $.ajax({
            type: "POST",
            dataType: 'JSON',

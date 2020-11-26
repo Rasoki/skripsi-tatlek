@@ -918,4 +918,18 @@ class Tatlek extends CI_Controller {
                                     echo json_encode(['nilai'=>$no]);
     }
 
+    function detail_eclat()
+    {
+        $eclat = $this->session->userdata("eclat");
+        $support = $this->uri->segment(3);
+        $confidence = $this->uri->segment(4); 
+        // $this->session->unset_userdata('eclat');
+
+        $data['eclat'] = $eclat;
+        $data['support'] = $support;
+        $data['confidence'] = $confidence;
+        $data['konten'] = 'tatlek/detail_eclat';
+        $this->load->view('template/v_template', $data);
+    }
+
 }
