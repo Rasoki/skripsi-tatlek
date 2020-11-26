@@ -872,9 +872,7 @@ class Tatlek extends CI_Controller {
         $support = $this->input->post('support');
         $confidence = $this->input->post('confidence');
         $item = $this->input->post('item');
-        $value = $this->input->post('value');
-        $value2 = $this->input->post('value2');
-
+    
         $no = 0;
         foreach ($item as $key => $value) {
             $cek = 0;
@@ -894,6 +892,30 @@ class Tatlek extends CI_Controller {
         $a_itemset [] = $no;
 
         echo json_encode(['nilai'=>$no]);
+    }
+
+    function itemset2()
+    {
+        $total = $this->input->post('total');
+        $fpg_value = $this->input->post('fpg_value');
+        $data_growth = $this->input->post('data_growth');
+
+        $support1 = $this->input->post('support');
+        $confidence1 = $this->input->post('confidence');
+
+        $no = 0;
+                                    foreach ($fpg_value as $key => $value) {
+
+                                        $support = $value / $total;
+                                        $confidence = $value / $data_growth[$key][1];
+
+                                        if ($support >= $support1 && $confidence >= $confidence1) {
+                                            $no++;
+                                        }
+
+                                    }
+                                    $a_itemset [] = $no;
+                                    echo json_encode(['nilai'=>$no]);
     }
 
 }
