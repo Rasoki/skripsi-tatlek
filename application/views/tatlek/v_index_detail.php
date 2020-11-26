@@ -1350,9 +1350,10 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
                                         $a_itemset [] = $no;
                              
 //                                   print_r($item);
+                                        echo $no;
                                  
                                         ?>
-                                        <span id="itemset2"><?=$no?></span>
+                                        <!-- <span id="itemset2"><?= $no ?></span> -->
                                     </td>
                                 </tr>
                                 <tr>
@@ -1392,7 +1393,7 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 
                                 <tr>
                                     <td>
-                                         
+                                         0.001
                                     </td>
                                     <td>
                                         0.3

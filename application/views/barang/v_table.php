@@ -20,9 +20,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <section class="panel">
-                     <a href="<?php echo site_url('Barang/form'); ?>"> 
+                      <?php
+                        if($this->session->userdata('jabatan')=='admin'){
+                     ?>
+                    <a href="<?php echo site_url('Kategori/form'); ?>"> 
                         <i class="icon-plus"></i> 
                     </a>
+                     <?php }?>
 
                     <div class="panel-body table-responsive">
                         
@@ -47,9 +51,15 @@
 <!--                                    <th>
                                         Harga Barang
                                     </th>-->
+                                    <?php
+                        if($this->session->userdata('jabatan')=='admin'){
+                     ?>
                                     <th>
+                                         
                                         Aksi
+                                       
                                     </th>
+                                     <?php }?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,12 +78,16 @@
 
 
                                         <td>
+                                             <?php
+                        if($this->session->userdata('jabatan')=='admin'){
+                     ?>
                                             <a  class="btn btn-info" href="<?php echo site_url('Barang/edit/' . $u->id_barang); ?>">
                                                 <i class="icon-note"></i>
                                             </a>
                                             <a  class="btn btn-danger" href="<?php echo site_url('Barang/hapus/' . $u->id_barang); ?>">
                                                 <i class="icon-close"></i>
                                             </a>
+                                            <?php }?>
                                         </td>
                                     </tr>
                                 <?php } ?>

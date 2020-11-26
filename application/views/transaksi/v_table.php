@@ -20,9 +20,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <section class="panel">
-                     <a href="<?php echo site_url('Transaksi/form'); ?>"> 
+                   <?php
+                        if($this->session->userdata('jabatan')=='admin'){
+                     ?>
+                    <a href="<?php echo site_url('Kategori/form'); ?>"> 
                         <i class="icon-plus"></i> 
                     </a>
+                     <?php }?>
 
                     <div class="panel-body table-responsive">
                         <table class="table colvis-data-table table-striped">
@@ -41,9 +45,14 @@
 <!--                                    <th>
                                         Total Harga
                                     </th>-->
+                                     <?php
+                        if($this->session->userdata('jabatan')=='admin'){
+                     ?>
                                     <th>
                                         Aksi
                                     </th>
+                                      <?php }?>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,7 +68,9 @@
                                        
 <!--                                        <td><?php echo ' Rp.' . number_format($u->harga,0,',','.')?></td>-->
                                         <td>
-                                           
+                                             <?php
+                                            if($this->session->userdata('jabatan')=='admin'){
+                     ?>
                                              <a  class="btn btn-primary" href="<?php echo site_url('Transaksi/form_detail/' . $u->id_transaksi); ?>">
                                                 <i class="icon-arrow-right-circle"></i>
                                             </a>
@@ -69,6 +80,7 @@
                                             <a  class="btn btn-danger" href="<?php echo site_url('Transaksi/hapus/' . $u->id_transaksi); ?>">
                                                 <i class="icon-close"></i>
                                             </a>
+                                             <?php }?>
                                         </td>
                                     </tr>
                                 <?php } ?>

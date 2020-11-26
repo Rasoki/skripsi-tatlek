@@ -22,9 +22,13 @@
             <div class="col-sm-12">
 
                 <section class="panel">
+                     <?php
+                                    if($this->session->userdata('jabatan')=='admin'){
+                                    ?>
                     <a href="<?php echo site_url('Kategori/form'); ?>"> 
                         <i class="icon-plus"></i> 
                     </a>
+                     <?php }?>
                     <div class="panel-body table-responsive">
 
 
