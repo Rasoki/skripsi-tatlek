@@ -932,4 +932,24 @@ class Tatlek extends CI_Controller {
         $this->load->view('template/v_template', $data);
     }
 
+    function detail_fpgrowth()
+    {
+        $eclat = $this->session->userdata("eclat");
+        $fpg_data = $this->session->userdata("fpg_data");
+        $fpg_value = $this->session->userdata("fpg_value");
+        $growth = $this->session->userdata("growth");
+        $support = $this->uri->segment(3);
+        $confidence = $this->uri->segment(4); 
+        // $this->session->unset_userdata('eclat');
+
+        $data['eclat'] = $eclat;
+        $data['fpg_data'] = $fpg_data;
+        $data['fpg_value'] = $fpg_value;
+        $data['growth'] = $growth;
+        $data['support1'] = $support;
+        $data['confidence1'] = $confidence;
+        $data['konten'] = 'tatlek/detail_fpgrowth';
+        $this->load->view('template/v_template', $data);
+    }
+
 }

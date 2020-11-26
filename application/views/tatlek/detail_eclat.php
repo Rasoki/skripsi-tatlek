@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <section class="panel">
-                <header class="panel-heading panel-border">
+                    <header class="panel-heading panel-border">
                         Tabel Hasil
                         <span class="tools pull-right">
                             <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
@@ -60,21 +60,21 @@
                                 foreach ($eclat['support'] as $key => $value) {
                                     foreach ($value as $key2 => $value2) {
                                         if($eclat['support'] >= $support && $eclat['confidence'][$key2][$key] >= $confidence){
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $no++ ?></td>
-                                            <td><?php echo $eclat['kategori'][$key]['name'] . ' ->' . $eclat['kategori'][$key2]['name'] ?></td>
-                                            <td><?php echo $value2 ?>
-                                        </td>
-                                        <td><?php echo $eclat['confidence'][$key2][$key] ?>
-                                    </td>   
-                                    <td><?php echo $eclat['confidence'][$key2][$key] + $value2 ?>
-                                </td> 
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $no++ ?></td>
+                                                <td><?php echo $eclat['kategori'][$key]['name'] . ' ->' . $eclat['kategori'][$key2]['name'] ?></td>
+                                                <td><?php echo $value2 ?>
+                                            </td>
+                                            <td><?php echo $eclat['confidence'][$key2][$key] ?>
+                                        </td>   
+                                        <td><?php echo $eclat['confidence'][$key2][$key] + $value2 ?>
+                                    </td> 
 
 
-                            </tr>
-                            <?php
-                                        }
+                                </tr>
+                                <?php
+                            }
                             array_push($eclat_data, array($key, $key2));
                             array_push($eclat_value, ($eclat['confidence'][$key2][$key] + $value2));
                         }
@@ -85,9 +85,9 @@
 
                 </tbody>
             </table>
-                    </div>
-                </section>
-            </div>
         </div>
-    </div>
+    </section>
+</div>
+</div>
+</div>
 </div>

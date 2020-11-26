@@ -1216,6 +1216,9 @@ $select_confidence2 = [0.1,0.2,0.3,0.4];
 
 <?php
 $this->session->set_userdata('eclat',$eclat);
+$this->session->set_userdata('fpg_data',$fpg_data);
+$this->session->set_userdata('fpg_value',$fpg_value);
+$this->session->set_userdata('growth',$growth);
 ?>
 
                     <header class="panel-heading panel-border">
@@ -1415,6 +1418,9 @@ $this->session->set_userdata('eclat',$eclat);
                                         ?>
                                         <span id="itemset3">0</span>
                                     </td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary btn-sm" id="detail_fpgrowth1">Detail</a>
+                                    </td>
 
 
                                 </tr>
@@ -1459,6 +1465,9 @@ $this->session->set_userdata('eclat',$eclat);
                                     
                                     ?>
                                     <span id="itemset4">0</span>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-sm" id="detail_fpgrowth2">Detail</a>
                                 </td>
                             </tr>
                         </table>
@@ -1640,6 +1649,7 @@ $this->session->set_userdata('eclat',$eclat);
    }
    function getValue3()
    {
+    $("a#detail_fpgrowth1").attr("href", "<?php echo site_url('tatlek/detail_fpgrowth/')?>/"+$('#eclat3').val()+"/"+$('#confidence3').val()+"");
        $.ajax({
            type: "POST",
            dataType: 'JSON',
@@ -1652,6 +1662,7 @@ $this->session->set_userdata('eclat',$eclat);
    }
    function getValue4()
    {
+    $("a#detail_fpgrowth2").attr("href", "<?php echo site_url('tatlek/detail_fpgrowth/')?>/"+$('#eclat4').val()+"/"+$('#confidence4').val()+"");
        $.ajax({
            type: "POST",
            dataType: 'JSON',
